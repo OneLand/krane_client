@@ -19,13 +19,19 @@ public class GameManager : MonoBehaviour {
 		canvasManager.Show (CanvasManager.CANVAS_TYPES.CANVAS_TYPE_LOGIN);
 		// App Initialzing data 획득
 		if (apiManager != null) {
-			StartCoroutine (apiManager.GetText ((returnValue) => {
-				Debug.Log (returnValue);
+			StartCoroutine (apiManager.SendRequest (apiManager.INIT_ENV_REQ, (httpResponse) => {
+				InitEnvResponseHandler(httpResponse);
 			}));
 		} else {
 			// ErrorCode에 의한 팝업
 			Debug.LogError ("apiManager is NULL.");
 		}
+	}
+
+	void InitEnvResponseHandler(HttpResponse httpResponse) {
+		Debug.Log ("response: " + httpResponse.body);
+//		AppInfo appInfo = JsonUtility.FromJson<AppInfo>(httpResponse.body);
+//		Debug.Log ("appInfo: " + JsonUtility.ToJson(appInfo));
 	}
 
 	// Update is called once per frame
