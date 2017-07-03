@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using MiniJSON;
 
 public class ApiManager : MonoBehaviour {
 	/// <summary>
@@ -62,7 +63,7 @@ public class ApiManager : MonoBehaviour {
 
 	public HttpClient httpClient;
 
-	public IEnumerator SendRequest(HttpRequest httpRequest, System.Action<HttpResponse> callback)
+	public IEnumerator SendRequest(HttpRequest httpRequest, System.Action<string> callback)
 	{
 		using (UnityWebRequest request = UnityWebRequest.Get(httpRequest.url))
 		{
@@ -70,19 +71,46 @@ public class ApiManager : MonoBehaviour {
 
 			if (request.isError) {
 				// Error
-				HttpResponse httpResponse = new HttpResponse ();
-				httpResponse.status = (int)HttpResponse.STATUS_CODES.NETWORK_ERROR;
-				callback (httpResponse);
-			}
-			else {
-				// Success
-				Debug.Log("### request.downloadHandler.text: " + request.downloadHandler.text);
-				HttpResponse httpResponse = JsonUtility.FromJson<HttpResponse> (request.downloadHandler.text);
-				Debug.Log ("### Status: " + httpResponse.status);
-				Debug.Log ("### Message: " + httpResponse.message);
-				Debug.Log ("### Body: " + httpResponse.body.ToString());
-				callback (JsonUtility.FromJson<HttpResponse> (request.downloadHandler.text));
+				Debug.LogWarning("Request is error.");
+//				HttpResponse httpResponse = new HttpResponse();
+//				httpResponse.status = (int)HttpResponse.STATUS_CODES.NETWORK_ERROR;
+//				callback (httpResponse);
+			} else {
+				string response = request.downloadHandler.text;
+				HttpResponse httpRes = JsonUtility.FromJson<HttpResponse> (response);
+				if (httpRes.status == 200) {
+					// Success
+					callback (response);
+				} else {
+					// Failed
+					Debug.LogWarning(JsonUtility.ToJson (httpRes));
+				}
 			}
 		}
+	}
+
+	private HttpResponse getResponse(HttpRequest httpRequest, UnityWebRequest unityWebRequest) {
+		if (httpRequest.Equals (INIT_ENV_REQ)) {
+			Debug.Log("It's INIT_ENV_REQ");
+			HttpResponse httpRes = JsonUtility.FromJson<HttpResponse> (unityWebRequest.downloadHandler.text);
+			return httpRes;
+//			return JsonUtility.FromJson<InitEnvResponse> (unityWebRequest.downloadHandler.text);
+		}
+		return null;
+	}
+
+	private void testJson() {
+		var enemies = new List <Enemy> ();
+		enemies.Add ( new Enemy ( "슬라임" , new List < string > () { "공격" }));
+		enemies.Add ( new Enemy ( "킹 슬라임" , new List < string > () { "공격" , "회복" }));
+		Debug.Log (JsonUtility.ToJson (enemies));
+
+		// List <T> -> Json 문자열 (예 : List <Enemy>) 
+		string str = JsonUtility.ToJson ( new Serialization <Enemy> (enemies)); // 출력 : { "target": [{ "name ":"슬라임 ","skills ":"공격 "]}, {"name ":"킹 슬라임 ","skills ":"공격 ","회복 "]}]} 
+		Debug.Log(str);
+		// Json 문자열 -> List <T>
+		List <Enemy> enemyList = JsonUtility.FromJson <Serialization <Enemy >> (str) .ToList ();
+		Debug.Log (enemyList);
+
 	}
 }

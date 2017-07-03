@@ -15,7 +15,8 @@ public class HttpResponse {
 		NETWORK_ERROR			= 10000
 	}
 
+	[SerializeField]
 	public int status;
+	[SerializeField]
 	public string message;
-	public AppInfo body;
 }
