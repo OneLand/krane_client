@@ -47,8 +47,6 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\CanvasManager.cs" />
-     <Compile Include="Assets\GameManager.cs" />
-     <Compile Include="Assets\LoginManager.cs" />
      <Compile Include="Assets\Scripts\ActiveStateToggler.cs" />
      <Compile Include="Assets\Scripts\ApplicationManager.cs" />
      <Compile Include="Assets\Scripts\ChangeColor.cs" />
@@ -58,6 +56,10 @@
      <Compile Include="Assets\Scripts\DragMe.cs" />
      <Compile Include="Assets\Scripts\DragPanel.cs" />
      <Compile Include="Assets\Scripts\DropMe.cs" />
+     <Compile Include="Assets\Scripts\Managers\ApiManager.cs" />
+     <Compile Include="Assets\Scripts\Managers\BaseManager.cs" />
+     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
+     <Compile Include="Assets\Scripts\Managers\LoginManager.cs" />
      <Compile Include="Assets\Scripts\Models\Control\Direction.cs" />
      <Compile Include="Assets\Scripts\Models\DeliveryStatus.cs" />
      <Compile Include="Assets\Scripts\Models\Event.cs" />
@@ -78,8 +80,6 @@
      <Compile Include="Assets\Scripts\Models\Setting.cs" />
      <Compile Include="Assets\Scripts\Models\Store.cs" />
      <Compile Include="Assets\Scripts\Models\Store\StoreItem.cs" />
-     <Compile Include="Assets\Scripts\Network\ApiManager.cs" />
-     <Compile Include="Assets\Scripts\Network\Enemy.cs" />
      <Compile Include="Assets\Scripts\Network\HttpClient.cs" />
      <Compile Include="Assets\Scripts\Network\Response\InitEnvResponse.cs" />
      <Compile Include="Assets\Scripts\PanelManager.cs" />

@@ -20,7 +20,7 @@ public class CanvasManager : MonoBehaviour {
 	private CANVAS_TYPES currentShowingCanvasType;
 
 	// Use this for initialization
-	void Start () {
+	public void Init() {
 		canvasMap = new Dictionary<CANVAS_TYPES, GameObject> ();
 		RegistAllCanvasObjects ();
 	}
